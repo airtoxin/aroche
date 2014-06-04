@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>aroche</title>
+
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/font-awesome.min.css" rel="stylesheet" >
+<link href="css/main.css" rel="stylesheet">
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+<body>
+<div class="row" style="text-align:center">
+    <div class="col-xs-12">
+        <div id="logo">
+            <img src="img/logo.png" style="width:100%;">
+        </div>
+        <div id="js-message-box"></div>
+        <div id="container">
+            <section v-show="screenMode==='default'">
+                <div class="section-row">
+                    <div v-show="enterNewProject" class="row"><!-- 新規プロジェクト作成ビュー -->
+                        <input type="file" id="js-newproject" nwdirectory style="display:none;"/>
+                        <div class="col-xs-8"><!-- プロジェクト名 -->
+                            <input type="text" id="js-newproject-nameinput" placeholder="project name?" class="form-control" v-model="projectName" v-on="keyup: createNewProject() | key enter"/>
+                        </div>
+                        <div class="col-xs-2">
+                            <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: createNewProject()"><i class="fa fa-check"><!-- OKボタン --></i></button>
+                        </div>
+                        <div class="col-xs-2"><!-- プロジェクト作成をキャンセル -->
+                            <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: cancelNewProject()"><i class="fa fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" v-show="!enterNewProject" class="btn btn-default btn-lg btn-block" v-on="click: newProjectView()">New project</button>
+                </div>
+                <div class="section-row"><!-- 既存プロジェクトを開く -->
+                    <input type="file" id="js-openproject" nwdirectory style="display:none;"/>
+                    <button type="button" id="js-openproject-enter" class="btn btn-default btn-lg btn-block">Open project</button>
+                </div>
+                <div class="section-row"><!-- 最後に開いていたプロジェクトを開く -->
+                    <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: openLast()">Open last</button>
+                </div>
+            </section>
+
+            <section v-show="screenMode==='project'">
+                <div class="section-row row" v-show="!enterEditProjectName">
+                    <div class="col-xs-2"><!-- プロジェクトディレクトリを開く -->
+                        <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: openDirectory()"><i class="fa fa-folder-open"></i></button>
+                    </div>
+                    <div class="col-xs-2"><!-- プロジェクト名変更 -->
+                        <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: enterEditProjectName = true"><i class="fa fa-pencil"></i></button>
+                    </div>
+                    <div class="col-xs-6">
+                        <p style="padding-bottom:17px;padding-top:17px;">{{projectName}}</p>
+                    </div>
+                    <div class="col-xs-2"><!-- プロジェクトを閉じる -->
+                        <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: closeProject()"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="section-row row" v-show="enterEditProjectName"><!-- プロジェクト名修正時 -->
+                    <div class="col-xs-8">
+                        <input type="text" class="form-control" placeholder="rename {{projectName}}" v-model="temporaryProjectName" v-on="keyup: okRename() | key enter"/>
+                    </div>
+                    <div class="col-xs-2"><!-- OKボタン -->
+                        <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: okRename()"><i class="fa fa-check"></i></button>
+                    </div>
+                    <div class="col-xs-2"><!-- キャンセルボタン -->
+                        <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: cancelRename()"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="section-row">
+                    <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: runProject()">Run project</button>
+                </div>
+                <div class="section-row">
+                    <button type="button" class="btn btn-default btn-lg btn-block" v-on="click: buildProject()">Build project</button>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<audio id="audioclip" src="./sound.wav"></audio>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="js/jquery-2.1.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/vue.min.js"></script>
+<script src="src/main.js"></script>
+<script>
+  (function(d,s,p,i,a,m){a=d.createElement(s),m=d.getElementsByTagName(s)[0];
+    a.async=1;a.src=p+'?s='+i;m.parentNode.insertBefore(a,m)
+  })(document,'script','https://app.picomon.jp/load.js', '53639af78050702443f0487b');
+</script>
+</body>
+</html>
